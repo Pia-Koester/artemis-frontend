@@ -22,7 +22,6 @@ export default function Rootlayout() {
     //     theme="light"
     //   />
     <>
-      <h1 className="text-white">test test test</h1>
       <Outlet />
     </>
     //</AuthProvider>
