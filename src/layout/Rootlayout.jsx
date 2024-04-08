@@ -9,7 +9,7 @@ export default function Rootlayout() {
   return (
     // This toast container enables us to send success or failure messages on all pages
     // TO DO: remove container from child components and test
-    <AuthProvider>
+    <>
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -26,6 +26,6 @@ export default function Rootlayout() {
       <Navbar />
       <Outlet />
       <Footer />
-    </AuthProvider>
+    </>
   );
 }
