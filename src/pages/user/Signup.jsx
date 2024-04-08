@@ -4,7 +4,7 @@ import axiosClient from "../../api/axiosClient";
 import { useState } from "react";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
-//import Toast from "../components/messages/Toast";
+import Toast from "../../components/messages/Toast";
 
 export default function Signup() {
   const [step, setStep] = useState(1);
@@ -44,7 +44,7 @@ export default function Signup() {
       .post("signup", data)
       .then((response) => {
         console.log("Data from api", response.data);
-        // Toast("Registration Successfull");
+        Toast("Anmeldung erfolgreich");
         // setTimeout(() => {
         //   navigate("/login");
         // }, 3000);
@@ -81,17 +81,17 @@ export default function Signup() {
   return (
     <AnimatePresence>
       <div>
-        <div className="flex justify-center items-center">
-          <div className="flex flex-col items-center justify-center w-4/12 p-4 h-100 ">
+        <div className="flex justify-center items-center md:flex-row flex-col ">
+          <div className="flex flex-col items-center justify-center md:w-4/12 p-4 h-100 ">
             <h1 className="text-4xl mb-6 font-titleFont font-bold">Sign Up</h1>
-            <ul className="steps steps-vertical lg:steps-horizontal my-5">
+            <ul className="steps steps-horizontal my-5">
               <li
                 className={clsx(
-                  "step px-10",
+                  "step px-10 ",
                   (step === 1 || step === 2 || step === 3) && "step-primary"
                 )}
               >
-                Login
+                <span className="hidden md:block"> Login</span>
               </li>
               <li
                 className={clsx(
@@ -99,10 +99,10 @@ export default function Signup() {
                   (step === 2 || step === 3) && "step-primary"
                 )}
               >
-                Kontakt
+                <span className="hidden md:block"> Kontakt</span>
               </li>
               <li className={clsx("step", step === 3 && "step-primary")}>
-                Abschluss
+                <span className="hidden md:block"> Abschluss</span>
               </li>
             </ul>
             {step === 1 ? (
@@ -112,16 +112,18 @@ export default function Signup() {
               >
                 <div className="login-info ">
                   <div className="label self-start">
-                    <span className="label-text">What is your E-Mail?</span>
+                    <span className="label-text">
+                      Gib deine E-Mail Adresse an
+                    </span>
                   </div>
                   <input
                     placeholder="E-Mail"
                     className="input input-bordered w-58 max-w-xs input-primary "
                     {...register("email", {
-                      required: "E-mail is required",
+                      required: "E-mail ist erforderlich",
                       pattern: {
                         value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/,
-                        message: "You need a valid email address",
+                        message: "Das ist keine gültige E-Mail-Adresse",
                       },
                     })}
                   />
@@ -137,18 +139,19 @@ export default function Signup() {
                   )}
 
                   <div className="label self-start">
-                    <span className="label-text">Set a password</span>
+                    <span className="label-text">Wähle ein Passwort</span>
                   </div>
                   <div className="flex relative mr-7 items-center ">
                     <input
                       type={showPassword ? "text" : "password"}
-                      placeholder="Password"
+                      placeholder="Passwort"
                       className="input input-bordered w-full max-w-xs input-primary "
                       {...register("password", {
-                        required: "Password is required",
+                        required: "Passwort ist erforderlich",
                         minLength: {
                           value: 8,
-                          message: "Must be at least 8 characters",
+                          message:
+                            "Passwörter müssen mindestens 8 Zeichen lang sein",
                         },
                       })}
                     />
@@ -164,6 +167,32 @@ export default function Signup() {
                       {errors.password.message}
                     </span>
                   )}
+                  <div className="label self-start">
+                    <span className="label-text">Bestätige dein Passwort</span>
+                  </div>
+                  <div className="flex relative mr-7 items-center ">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Passwort"
+                      className="input input-bordered w-full max-w-xs input-primary"
+                      {...register("confirmPassword", {
+                        required: "Bitte Passwort bestätigen",
+                        validate: (value) =>
+                          value === watch("password") ||
+                          "Passwörter stimmen nicht überein",
+                      })}
+                    />
+                  </div>
+                  {errors.confirmPassword?.type === "required" && (
+                    <span className="label self-start mt-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                      {errors.confirmPassword.message}
+                    </span>
+                  )}
+                  {errors.confirmPassword?.type === "validate" && (
+                    <span className="label self-start mt-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                      {errors.confirmPassword.message}
+                    </span>
+                  )}
                   {/* TO DO: Password strength indicator */}
                 </div>
                 <button
@@ -173,7 +202,7 @@ export default function Signup() {
                     nextClasses[step]
                   )}
                 >
-                  Next
+                  Weiter
                 </button>
               </form>
             ) : step === 2 ? (
@@ -185,13 +214,13 @@ export default function Signup() {
                   {/* ATTENTION: this label is here so that the data from the first input is not being used from the first form or send to the third. Unclear why we need it */}
                   <div className="personal-details">
                     <div className="label self-start">
-                      <span className="label-text">What is your Name?</span>
+                      <span className="label-text">Vorname</span>
                     </div>
                     <input
-                      placeholder="First Name"
+                      placeholder="Vorname"
                       className="input input-bordered w-full max-w-xs input-primary "
                       {...register("firstName", {
-                        required: "Enter your First Name",
+                        required: "Gib deinen Vornamen an",
                       })}
                     />
                     {errors.firstName?.type === "required" && (
@@ -200,15 +229,13 @@ export default function Signup() {
                       </span>
                     )}
                     <div className="label self-start">
-                      <span className="label-text">
-                        What is your Last-Name?
-                      </span>
+                      <span className="label-text">Nachname</span>
                     </div>
                     <input
-                      placeholder="Last Name"
+                      placeholder="Nachname"
                       className="input input-bordered w-full max-w-xs input-primary "
                       {...register("lastName", {
-                        required: "Enter your last Name",
+                        required: "Gib deinen Nachnamen an",
                       })}
                     />{" "}
                     {errors.lastName?.type === "required" && (
@@ -218,14 +245,14 @@ export default function Signup() {
                     )}
                     <div className="label self-start">
                       <span className="label-text">
-                        What is your Phone Number?
+                        Wie ist deine Telefonnummer?
                       </span>
                     </div>
                     <input
-                      placeholder="Phonenumber"
+                      placeholder="Telefonnummer"
                       className="input input-bordered w-full max-w-xs input-primary "
                       {...register("phoneNumber", {
-                        required: "You must enter your phone Number",
+                        required: "Gib bitte deine Telefonnummer an",
                         pattern: {
                           value: /^[0-9]*$/,
                           message:
@@ -244,13 +271,14 @@ export default function Signup() {
                       </span>
                     )}
                     <div className="label self-start">
-                      <span className="label-text">Straße</span>
+                      <span className="label-text">Straße und Hausnummer</span>
                     </div>
                     <input
                       placeholder="Straßenname und Hausnummer"
                       className="input input-bordered w-full max-w-xs input-primary "
                       {...register("street", {
-                        required: "You must enter your Street",
+                        required:
+                          "Stassenname und Hausnummer sind erforderlich",
                       })}
                     />{" "}
                     {errors.street?.type === "required" && (
@@ -304,7 +332,7 @@ export default function Signup() {
                       className={clsx("btn btn-neutral", backClasses[step])}
                       onClick={handleBacksteps}
                     >
-                      Back
+                      Zurück
                     </button>
                     <button
                       disabled={Object.keys(errors).length > 0}
@@ -313,7 +341,7 @@ export default function Signup() {
                         nextClasses[step]
                       )}
                     >
-                      Next
+                      Weiter
                     </button>
                   </div>
                 </label>
@@ -322,14 +350,16 @@ export default function Signup() {
               <form onSubmit={handleSubmit(formSubmit)}>
                 {" "}
                 <div className="label self-start">
-                  <span className="label-text">When were you born?</span>
+                  <span className="label-text">
+                    Verrate uns dein Geburtsdatum
+                  </span>
                 </div>
                 <input
                   placeholder="Date of Birth"
                   className="input input-bordered w-full max-w-xs input-primary "
                   type="date"
                   {...register("dateOfBirth", {
-                    required: "Enter your date of birth",
+                    required: "Gib dein Geburtsdatum an",
                   })}
                 />
                 {errors.dateOfBirth?.type === "required" && (
@@ -338,7 +368,7 @@ export default function Signup() {
                   </span>
                 )}
                 <div className="label cursor-pointer">
-                  <span className="label-text">AGB Aproval</span>
+                  <span className="label-text">Ich stimme den AGBs zu </span>
                   <input
                     type="checkbox"
                     className="toggle toggle-secondary"
@@ -353,7 +383,9 @@ export default function Signup() {
                   </span>
                 )}
                 <div className="label cursor-pointer">
-                  <span className="label-text">Dataprotection read</span>
+                  <span className="label-text">
+                    Ich habe die Datenschutzbestimmungen gelesen
+                  </span>
                   <input
                     type="checkbox"
                     className="toggle toggle-secondary"
@@ -372,7 +404,7 @@ export default function Signup() {
                     className={clsx("btn btn-neutral", backClasses[step])}
                     onClick={handleBacksteps}
                   >
-                    Back
+                    Zurück
                   </button>
 
                   <button
@@ -381,7 +413,7 @@ export default function Signup() {
                       submitClasses[step]
                     )}
                   >
-                    Submit
+                    Anmelden
                   </button>
                 </div>
               </form>
@@ -396,7 +428,7 @@ export default function Signup() {
               }}
               exit={{ x: 300, opacity: 0 }}
               src="https://res.cloudinary.com/ddj2xpjki/image/upload/v1704633572/Zeus/isabella.small_gu1hs7.webp"
-              className="hidden sm:inline-block object-cover"
+              className="hidden md:inline-block object-cover"
             />
           </div>
         </div>
