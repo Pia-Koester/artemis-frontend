@@ -6,6 +6,9 @@ import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 import Toast from "../../components/messages/Toast";
 
+//TO DO: labels mit deutschen Fragestellungen formulierungen
+//TO DO: Test registrierungsschritte ohne Wörter
+
 export default function Signup() {
   const [step, setStep] = useState(1);
   const [loginInfo, setLoginInfo] = useState();
