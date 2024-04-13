@@ -10,7 +10,7 @@ import Rootlayout from "./layout/Rootlayout";
 import ErrorPage from "./pages/error/ErrorPage";
 import Signup from "./pages/user/Signup";
 import Login from "./pages/user/Login";
-import AuthProvider from "./Context/AuthProvider";
+import Loadlayout from "./layout/Loadlayout";
 
 const router = createBrowserRouter([
   {
@@ -19,12 +19,18 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "signup",
-        element: <Signup />,
-      },
-      {
-        path: "login",
-        element: <Login />,
+        path: "",
+        element: <Loadlayout />,
+        children: [
+          {
+            path: "signup",
+            element: <Signup />,
+          },
+          {
+            path: "login",
+            element: <Login />,
+          },
+        ],
       },
     ],
   },

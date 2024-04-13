@@ -437,7 +437,7 @@ export default function Signup() {
         </div>
 
         <p className="p-2 text-center">
-          Already registered?{" "}
+          Du bist schon registriert?{" "}
           <Link to="/login" className="text-accent ">
             Login
           </Link>
