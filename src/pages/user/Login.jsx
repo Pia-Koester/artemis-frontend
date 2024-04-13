@@ -29,8 +29,8 @@ export default function Login() {
   return (
     <AnimatePresence>
       <div>
-        <div className="flex justify-center items-center">
-          <div className="p-4 w-1/3 self-start">
+        <div className="flex justify-center items-center md:flex-row flex-col">
+          <div className="flex flex-col items-center justify-center md:w-4/12 p-4 h-100 ">
             <motion.img
               initial={{ x: 300, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}

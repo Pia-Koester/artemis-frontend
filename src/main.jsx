@@ -11,6 +11,10 @@ import ErrorPage from "./pages/error/ErrorPage";
 import Signup from "./pages/user/Signup";
 import Login from "./pages/user/Login";
 import Loadlayout from "./layout/Loadlayout";
+import ClassSchedule from "./pages/user/ClassSchedule";
+
+//Importing loader function
+import { getActivities } from "./api/activities";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +26,12 @@ const router = createBrowserRouter([
         path: "",
         element: <Loadlayout />,
         children: [
+          {
+            path: "",
+            element: <ClassSchedule />,
+            loader: getActivities,
+            index: true,
+          },
           {
             path: "signup",
             element: <Signup />,

@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import CapacityBadge from "./CapacityBadge";
+// import CapacityBadge from "./CapacityBadge";
 import { useState, useContext } from "react";
 import clsx from "clsx";
-import { AuthContext } from "../context/AuthProvider";
-import { PencilIcon, UsersIcon } from "@heroicons/react/24/outline";
+import { AuthContext } from "../../Context/AuthProvider";
+
+//importing icons from assets folder
+import pencil from "../../assets/icons/pencil-square.svg";
 
 export default function ActivityCard({ activity, role = "student", isBooked }) {
   const navigate = useNavigate();
@@ -44,8 +46,6 @@ export default function ActivityCard({ activity, role = "student", isBooked }) {
         className={clsx(
           "card mb-2  w-full  text-primary-content flex flex-col shadow-lg bg-gradient-to-l from-primary to-[#77cfe5] p-2 relative",
           past && "opacity-40"
-          // isBooked && "bg-gradient-to-r from-success to-[#3fea8c]",
-          // !past && !isBooked && "bg-gradient-to-r from-primary to-[#7ddaf2] "
         )}
       >
         {/* QUESTION: Why is the text running outside the box on medium sizes?  */}
@@ -82,7 +82,7 @@ export default function ActivityCard({ activity, role = "student", isBooked }) {
               </p>
               {role === "admin" && !past && (
                 <button>
-                  <PencilIcon className="w-4" />
+                  <pencil className="w-4" />
                 </button>
               )}
             </div>
@@ -95,11 +95,11 @@ export default function ActivityCard({ activity, role = "student", isBooked }) {
             </div>
             <div className="flex justify-center items-center my-3">
               <div className="flex gap-1 items-center">
-                <UsersIcon className="w-5" />
+                {/* <UsersIcon className="w-5" /> */}
                 <p>{activity?.registeredUsers?.length}</p>
               </div>
 
-              <CapacityBadge openSlots={openSlots} isBooked={isBooked} />
+              {/* <CapacityBadge openSlots={openSlots} isBooked={isBooked} /> */}
             </div>
           </div>
         </Link>
