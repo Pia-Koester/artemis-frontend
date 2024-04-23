@@ -33,7 +33,7 @@ export default function AuthProvider({ children }) {
       .post("/login", data)
       .then((response) => {
         setUser(response.data);
-        console.log(response.data);
+        console.log(`login complete ${response}`);
         navigate("/");
       })
       .catch((error) => {

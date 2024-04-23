@@ -64,10 +64,8 @@ export default function Navbar() {
                         className="w-full h-full object-cover rounded-full"
                       />
                     ) : (
-                      <img
-                        alt="User Icon - click to see menu options"
-                        src={userIcon}
-                      />
+                      //TO DO: increase size of user icon
+                      <UserIcon className="w-5" />
                     )}
                   </motion.div>
                 </div>

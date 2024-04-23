@@ -9,6 +9,7 @@ import { de as deLocale } from "date-fns/locale";
 //importing components
 import CapacityBadge from "../../components/activities/CapacityBadge";
 import LocationMap from "../../components/activities/LocationMap";
+import Modal from "../../components/messages/Modal";
 
 //importing icons
 import {
@@ -27,7 +28,6 @@ export default function ClassDetails() {
 
   //getting the activity details
   const activity = useLoaderData();
-  console.log(activity.type.images[0].url);
 
   //this is the same calculation as in the activity card
   const [openSlots, setOpenSlots] = useState(
@@ -40,12 +40,10 @@ export default function ClassDetails() {
   const formattedStartDate = format(startTime, "EEEE, MMMM do, yyyy", {
     locale: deLocale,
   }); // Format date as 'weekday, month day, year' (e.g., "Monday, January 1st, 2024")
-  const startMilliseconds = startTime.getTime(); // Get start time in milliseconds
 
   // Transforming end time
   const endTime = new Date(activity.endTime);
   const formattedEndTime = format(endTime, "HH:mm"); // Format time as 'HH:mm'
-  const endMilliseconds = endTime.getTime(); // Get end time in milliseconds
 
   // Calculate duration based on start and end time in minutes
   const duration = Math.ceil(differenceInMinutes(endTime, startTime) / 10) * 10;
@@ -146,17 +144,17 @@ export default function ClassDetails() {
               {user?.role !== "admin" && (
                 <>
                   {!user ||
-                  !user.classesRegistered.find((activity) => {
+                  !user.registeredActivities.find((activity) => {
                     return activity._id === id;
                   }) ? (
                     <button
                       className="btn btn-primary mr-3 self-center mt-2"
                       onClick={() =>
-                        document.getElementById("my_modal_1").showModal()
+                        document.getElementById("bookingInfo").showModal()
                       }
                       disabled={openSlots <= 0}
                     >
-                      Book Now
+                      Anmelden
                     </button>
                   ) : (
                     <>
@@ -174,6 +172,13 @@ export default function ClassDetails() {
                 </>
               )}{" "}
             </div>
+            <Modal
+              activity={activity}
+              id={id}
+              formattedStartTime={formattedStartTime}
+              formattedEndTime={formattedEndTime}
+              formattedStartDate={formattedStartDate}
+            />
             {/* <Bookingmodal
               handleBooking={handleBooking}
               activity={activity}
@@ -211,7 +216,7 @@ export default function ClassDetails() {
                                   ) : (
                                     <img
                                       alt="User Icon - click to see menu options"
-                                      src={userIcon}
+                                      src={UserIcon}
                                     />
                                   )}
                                 </div>
@@ -241,9 +246,9 @@ export default function ClassDetails() {
               />
             </div>
           )}{" "}
-          {user && user.role === "admin" && (
+          {/* {user && user.role === "admin" && (
             <EditActivity activity={activity} hideBackButton />
-          )}
+          )} */}
         </div>
       </div>
     </div>
