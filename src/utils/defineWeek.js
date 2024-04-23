@@ -8,8 +8,10 @@ const defineWeek = () => {
 
   const formattedMonday = format(monday, "yyyy-MM-dd");
   const formattedSunday = format(sunday, "yyyy-MM-dd");
+  const shortMonday = format(monday, "dd.MM.", { locale: deLocale });
+  const shortSunday = format(sunday, "dd.MM.", { locale: deLocale });
 
-  return { formattedMonday, formattedSunday };
+  return { formattedMonday, formattedSunday, shortMonday, shortSunday };
 };
 
 export { defineWeek };

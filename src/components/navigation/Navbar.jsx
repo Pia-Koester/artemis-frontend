@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { motion } from "framer-motion";
 
-import userIcon from "../../assets/icons/user-icon.svg";
+import { UserIcon } from "../../assets/icons/Icons.jsx";
 
 export default function Navbar() {
   const { isLoading, user, logout } = useContext(AuthContext);

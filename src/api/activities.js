@@ -15,12 +15,37 @@ const getActivities = async ({ request }) => {
 
     const response = await axiosClient.get(`activities?${queryString}`);
 
-    console.log(response);
-    return response.data;
+    const activitiesByWeekday = response.data.reduce(
+      (accumulator, activity) => {
+        const { weekday } = activity;
+        accumulator[weekday] = accumulator[weekday] || [];
+        accumulator[weekday].push(activity);
+        return accumulator;
+      },
+      {}
+    );
+
+    const data = {
+      weekstart: week.shortMonday,
+      weekend: week.shortSunday,
+      activities: activitiesByWeekday,
+    };
+
+    return data;
   } catch (error) {
     console.log(error);
     throw Error(error);
   }
 };
 
-export { getActivities };
+const getActivity = async ({ params }) => {
+  try {
+    const { id } = params;
+    const response = await axiosClient.get(`activities/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { getActivities, getActivity };
