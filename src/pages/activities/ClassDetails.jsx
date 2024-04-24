@@ -19,6 +19,7 @@ import {
   CalendarIcon,
   UsersIcon,
 } from "../../assets/icons/Icons";
+import TrialSessionModal from "../../components/messages/TrialSessionModal";
 
 export default function ClassDetails() {
   //in the url parameters the id of the activity is passed - this is used to get the activity details
@@ -50,6 +51,28 @@ export default function ClassDetails() {
 
   //to use the array of registeredUsers we take them out of the activity object for easier handling
   const registeredUsers = activity?.registeredUsers;
+
+  //booking function which allows users to book the class
+  const handleBooking = () => {
+    axiosClient
+      .put(`/activities/${id}`, {})
+      .then((response) => {
+        setOpenSlots(
+          response.data.activity.capacity -
+            response.data.activity.registeredUsers.length
+        );
+        setUser(response.data.user);
+      })
+      .then(() => {
+        navigate(`confirmation`);
+      })
+      .catch((err) => {
+        console.log(err.response.status);
+        if (err.response.status.toString() === "403") {
+          navigate("/login");
+        }
+      });
+  };
 
   const navigate = useNavigate();
   return (
@@ -143,10 +166,19 @@ export default function ClassDetails() {
             <div className="flex justify-center flex-wrap">
               {user?.role !== "admin" && (
                 <>
-                  {!user ||
-                  !user.registeredActivities.find((activity) => {
-                    return activity._id === id;
-                  }) ? (
+                  {!user ? (
+                    <button
+                      className="btn btn-primary mr-3 self-center mt-2"
+                      onClick={() =>
+                        document.getElementById("trialSession").showModal()
+                      }
+                      disabled={openSlots <= 0}
+                    >
+                      Probetraining buchen
+                    </button>
+                  ) : !user.registeredActivities.find((activity) => {
+                      return activity._id === id;
+                    }) ? (
                     <button
                       className="btn btn-primary mr-3 self-center mt-2"
                       onClick={() =>
@@ -178,15 +210,9 @@ export default function ClassDetails() {
               formattedStartTime={formattedStartTime}
               formattedEndTime={formattedEndTime}
               formattedStartDate={formattedStartDate}
-            />
-            {/* <Bookingmodal
               handleBooking={handleBooking}
-              activity={activity}
-              id={id}
-              formattedStartTime={formattedStartTime}
-              formattedEndTime={formattedEndTime}
-              formattedStartDate={formattedStartDate}
-            /> */}
+            />
+            <TrialSessionModal />
           </aside>
           {user && user.role === "admin" ? (
             <div className="Angemeldete-Nutzer card bg-white shadow-xl flex flex-col p-4 min-w-96 col-start-2 row-start-2 row-span-2  max-h-[550px] overflow-x-auto overflow-y-auto">

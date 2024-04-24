@@ -3,7 +3,7 @@ import axios from "axios";
 //To Do: only for dev! Change in Prod
 
 const axiosClient = axios.create({
-  baseURL: `https://artemisbooking.cyclic.app/api` || "",
+  baseURL: `https://booking.artemis-sports.de/api`,
   withCredentials: true,
 });
 

@@ -13,6 +13,7 @@ export default function Modal({
   formattedEndTime,
   formattedStartTime,
   formattedStartDate,
+  handleBooking,
 }) {
   return (
     <>
@@ -34,22 +35,25 @@ export default function Modal({
       <dialog id="bookingInfo" className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg">
-            Kursdetails für {activity.title}
+            Kursdetails für {activity?.title}
           </h3>
           <div className="flex gap-2 m-2">
             <CalendarIcon className="w-7" />
             <p className="font-titleH3 font-semibold text-xl">Datum</p>
           </div>
           <p>{formattedStartDate}</p>
-
           <div className="flex gap-2 m-2">
             <ClockIcon className="w-7" />
             <p className="font-titleH3 font-semibold text-xl">Uhrzeit</p>
           </div>
           <p>
             {formattedStartTime} - {formattedEndTime}
-          </p>
+          </p>{" "}
+          <button onClick={handleBooking} className="btn btn-primary">
+            Anmelden
+          </button>
         </div>
+
         {/* TO DO: check if user is logged in or not, if not then show Probetraining buchen, if yes, then check if membership or not */}
         <form method="dialog" className="modal-backdrop">
           <button>schließen</button>
