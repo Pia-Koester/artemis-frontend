@@ -32,6 +32,7 @@ export default function AuthProvider({ children }) {
     axiosClient
       .post("/login", data)
       .then((response) => {
+        console.log(response);
         setUser(response.data);
         navigate("/");
       })

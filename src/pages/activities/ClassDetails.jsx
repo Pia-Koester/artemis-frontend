@@ -59,11 +59,12 @@ export default function ClassDetails() {
     axiosClient
       .put(`/activities/${id}`, {})
       .then((response) => {
-        setOpenSlots(
-          response.data.activity.capacity -
-            response.data.activity.registeredUsers.length
-        );
-        setUser(response.data.user);
+        console.log("after successfull booking: ", response.data);
+        // setOpenSlots(
+        //   response.data.activity.capacity -
+        //     response.data.activity.registeredUsers.length
+        // );
+        // setUser(response.data.user);
       })
       .then(() => {
         navigate(`confirmation`);
