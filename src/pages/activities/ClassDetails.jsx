@@ -54,6 +54,8 @@ export default function ClassDetails() {
 
   //booking function which allows users to book the class
   const handleBooking = () => {
+    // Log cookies before making the request
+    console.log("Cookies:", document.cookie);
     axiosClient
       .put(`/activities/${id}`, {})
       .then((response) => {
@@ -67,10 +69,11 @@ export default function ClassDetails() {
         navigate(`confirmation`);
       })
       .catch((err) => {
-        console.log(err.response.status);
-        if (err.response.status.toString() === "403") {
-          navigate("/login");
-        }
+        // console.log(err.response.status);
+        // if (err.response.status.toString() === "403") {
+        //   navigate("/login");
+        // }
+        console.log(err);
       });
   };
 
