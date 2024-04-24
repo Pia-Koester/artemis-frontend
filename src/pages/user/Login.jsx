@@ -20,12 +20,6 @@ export default function Login() {
     login(data);
   };
 
-  const handleShowPassword = () => {
-    setShowPassword(true);
-  };
-  const handleHidePassword = () => {
-    setShowPassword(false);
-  };
   return (
     <AnimatePresence>
       <div>

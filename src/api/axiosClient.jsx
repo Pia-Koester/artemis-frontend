@@ -1,9 +1,7 @@
 import axios from "axios";
 
-//To Do: only for dev! Change in Prod
-
 const axiosClient = axios.create({
-  baseURL: `https://artemisbooking.cyclic.app/api` || "",
+  baseURL: `${process.env.VITE_API_URL}/api`,
   withCredentials: true,
 });
 

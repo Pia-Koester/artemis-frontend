@@ -15,8 +15,8 @@ export default function AuthProvider({ children }) {
     axiosClient
       .get("/users/profile")
       .then((response) => {
-        setUser(response.data);
         console.log(response.data);
+        setUser(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -32,8 +32,8 @@ export default function AuthProvider({ children }) {
     axiosClient
       .post("/login", data)
       .then((response) => {
+        console.log(response);
         setUser(response.data);
-        console.log(response.data);
         navigate("/");
       })
       .catch((error) => {

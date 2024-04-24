@@ -9,6 +9,7 @@ import { de as deLocale } from "date-fns/locale";
 //importing components
 import CapacityBadge from "../../components/activities/CapacityBadge";
 import LocationMap from "../../components/activities/LocationMap";
+import Modal from "../../components/messages/Modal";
 
 //importing icons
 import {
@@ -18,6 +19,7 @@ import {
   CalendarIcon,
   UsersIcon,
 } from "../../assets/icons/Icons";
+import TrialSessionModal from "../../components/messages/TrialSessionModal";
 
 export default function ClassDetails() {
   //in the url parameters the id of the activity is passed - this is used to get the activity details
@@ -27,7 +29,6 @@ export default function ClassDetails() {
 
   //getting the activity details
   const activity = useLoaderData();
-  console.log(activity.type.images[0].url);
 
   //this is the same calculation as in the activity card
   const [openSlots, setOpenSlots] = useState(
@@ -40,18 +41,42 @@ export default function ClassDetails() {
   const formattedStartDate = format(startTime, "EEEE, MMMM do, yyyy", {
     locale: deLocale,
   }); // Format date as 'weekday, month day, year' (e.g., "Monday, January 1st, 2024")
-  const startMilliseconds = startTime.getTime(); // Get start time in milliseconds
 
   // Transforming end time
   const endTime = new Date(activity.endTime);
   const formattedEndTime = format(endTime, "HH:mm"); // Format time as 'HH:mm'
-  const endMilliseconds = endTime.getTime(); // Get end time in milliseconds
 
   // Calculate duration based on start and end time in minutes
   const duration = Math.ceil(differenceInMinutes(endTime, startTime) / 10) * 10;
 
   //to use the array of registeredUsers we take them out of the activity object for easier handling
   const registeredUsers = activity?.registeredUsers;
+
+  //booking function which allows users to book the class
+  const handleBooking = () => {
+    // Log cookies before making the request
+    console.log("Cookies:", document.cookie);
+    axiosClient
+      .put(`/activities/${id}`, {})
+      .then((response) => {
+        console.log("after successfull booking: ", response.data);
+        // setOpenSlots(
+        //   response.data.activity.capacity -
+        //     response.data.activity.registeredUsers.length
+        // );
+        // setUser(response.data.user);
+      })
+      .then(() => {
+        navigate(`confirmation`);
+      })
+      .catch((err) => {
+        // console.log(err.response.status);
+        // if (err.response.status.toString() === "403") {
+        //   navigate("/login");
+        // }
+        console.log(err);
+      });
+  };
 
   const navigate = useNavigate();
   return (
@@ -145,18 +170,27 @@ export default function ClassDetails() {
             <div className="flex justify-center flex-wrap">
               {user?.role !== "admin" && (
                 <>
-                  {!user ||
-                  !user.classesRegistered.find((activity) => {
-                    return activity._id === id;
-                  }) ? (
+                  {!user ? (
                     <button
                       className="btn btn-primary mr-3 self-center mt-2"
                       onClick={() =>
-                        document.getElementById("my_modal_1").showModal()
+                        document.getElementById("trialSession").showModal()
                       }
                       disabled={openSlots <= 0}
                     >
-                      Book Now
+                      Probetraining buchen
+                    </button>
+                  ) : !user.registeredActivities.find((activity) => {
+                      return activity._id === id;
+                    }) ? (
+                    <button
+                      className="btn btn-primary mr-3 self-center mt-2"
+                      onClick={() =>
+                        document.getElementById("bookingInfo").showModal()
+                      }
+                      disabled={openSlots <= 0}
+                    >
+                      Anmelden
                     </button>
                   ) : (
                     <>
@@ -174,14 +208,15 @@ export default function ClassDetails() {
                 </>
               )}{" "}
             </div>
-            {/* <Bookingmodal
-              handleBooking={handleBooking}
+            <Modal
               activity={activity}
               id={id}
               formattedStartTime={formattedStartTime}
               formattedEndTime={formattedEndTime}
               formattedStartDate={formattedStartDate}
-            /> */}
+              handleBooking={handleBooking}
+            />
+            <TrialSessionModal />
           </aside>
           {user && user.role === "admin" ? (
             <div className="Angemeldete-Nutzer card bg-white shadow-xl flex flex-col p-4 min-w-96 col-start-2 row-start-2 row-span-2  max-h-[550px] overflow-x-auto overflow-y-auto">
@@ -211,7 +246,7 @@ export default function ClassDetails() {
                                   ) : (
                                     <img
                                       alt="User Icon - click to see menu options"
-                                      src={userIcon}
+                                      src={UserIcon}
                                     />
                                   )}
                                 </div>
@@ -241,9 +276,9 @@ export default function ClassDetails() {
               />
             </div>
           )}{" "}
-          {user && user.role === "admin" && (
+          {/* {user && user.role === "admin" && (
             <EditActivity activity={activity} hideBackButton />
-          )}
+          )} */}
         </div>
       </div>
     </div>
