@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import navLogo from "../../assets/logos/WortBildmarkeMAINLOGO_anthra.svg";
+import navLogoSmall from "../../assets/logos/Bildmarke_anthra.svg";
 import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { motion } from "framer-motion";
@@ -12,12 +13,12 @@ export default function Navbar() {
   return (
     <>
       {!isLoading && (
-        <div className="navbar bg-base-100 px-10 py-3">
+        <div className="navbar bg-base-100 px-4 sm:px-10 py-3">
           <div className="flex-1">
             <NavLink to={"/"}>
               <img
                 className="btn btn-lg btn-ghost w-full"
-                src={navLogo}
+                src={window.innerWidth < 640 ? navLogoSmall : navLogo}
                 alt="home"
               />
             </NavLink>
@@ -28,7 +29,9 @@ export default function Navbar() {
               className=" btn-primary btn btn-outline ml-auto mr-10"
               onClick={() => navigate("/membershipPlans")}
             >
-              Get your membership
+              {window.innerWidth < 640
+                ? "10er Karte"
+                : "Hol dir eine 10er Karte!"}
             </button>
           )}
           {!user ? (
