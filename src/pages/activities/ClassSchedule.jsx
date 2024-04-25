@@ -25,7 +25,7 @@ export default function ClassSchedule() {
     "Donnerstag",
     "Freitag",
     "Samstag",
-    "Sontag",
+    "Sonntag",
   ];
 
   //functionality to make sure to filter based on week or trainer
