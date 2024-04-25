@@ -48,12 +48,6 @@ export default function ActivityDetails({
           />
         </div>
       </div>
-      {activity.instructor && (
-        <div className="grid grid-rows-2 mt-5 mr-4 lg:mr-0">
-          <p className="font-titleH3 font-semibold text-xl">Instructor:</p>
-          <p>{activity.instructor?.firstName}</p>
-        </div>
-      )}
     </div>
   );
 }
