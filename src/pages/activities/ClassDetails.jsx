@@ -71,7 +71,7 @@ export default function ClassDetails() {
         navigate(`confirmation`);
       })
       .catch((err) => {
-        console.log(err.response.status);
+        console.log(err);
         if (err.response.status.toString() === "403") {
           navigate("/login");
         }
@@ -185,7 +185,7 @@ export default function ClassDetails() {
               handleBooking={handleBooking}
               duration={duration}
             />
-            <TrialSessionModal />
+            <TrialSessionModal activity={activity} id={id} />
           </aside>
           {user && user.role === "admin" ? (
             <div className="Angemeldete-Nutzer card bg-white shadow-xl flex flex-col p-4 min-w-96 sm:col-start-2 sm:row-start-2 sm:row-span-2  max-h-[550px] overflow-x-auto overflow-y-auto">
