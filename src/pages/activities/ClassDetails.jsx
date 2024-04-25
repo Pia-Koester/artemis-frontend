@@ -20,6 +20,7 @@ import {
   UsersIcon,
 } from "../../assets/icons/Icons";
 import TrialSessionModal from "../../components/messages/TrialSessionModal";
+import ActivityDetails from "../../components/activities/ActivityDetails";
 
 export default function ClassDetails() {
   //in the url parameters the id of the activity is passed - this is used to get the activity details
@@ -124,48 +125,15 @@ export default function ClassDetails() {
           <aside
             className={`card bg-white shadow-xl flex flex-col p-4  min-w-96  row-span-1 `}
           >
-            <div className="flex flex-col lg:flex-row lg:items-center">
-              <div className="lg:w-2/3 lg:pr-8">
-                <div className="flex gap-2 m-2">
-                  <CalendarIcon className="w-7" />
-                  <p className="font-titleH3 font-semibold text-xl">Datum</p>
-                </div>
-                <p>{formattedStartDate}</p>
-
-                <div className="flex gap-2 m-2">
-                  <ClockIcon className="w-7" />
-                  <p className="font-titleH3 font-semibold text-xl">Uhrzeit</p>
-                </div>
-                <p>
-                  {formattedStartTime} - {formattedEndTime} ({duration} Min.)
-                </p>
-
-                <div className="flex gap-2 m-2">
-                  <UsersIcon className="w-7" />
-                  <p className="font-titleH3 font-semibold text-xl">
-                    Verfügbarkeit
-                  </p>
-                </div>
-                <CapacityBadge openSlots={openSlots} />
-              </div>
-
-              <div className="lg:w-1/3">
-                {/* <div className="avatar self-center mt-3 sm:flex gap-2">
-                  <div className="w-24 mask mask-hexagon">
-                    <img
-                      src={activity.instructor.image.url}
-                      alt={activity.instructor.firstName}
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-rows-2 mt-5 mr-4">
-                  <p className="font-titleH3 font-semibold text-xl">
-                    Instructor:
-                  </p>
-                  <p>{activity.instructor.firstName}</p>
-                </div> */}
-              </div>
-            </div>
+            <ActivityDetails
+              activity={activity}
+              id={id}
+              formattedStartTime={formattedStartTime}
+              formattedEndTime={formattedEndTime}
+              formattedStartDate={formattedStartDate}
+              duration={duration}
+              openSlots={openSlots}
+            />
 
             <div className="flex justify-center flex-wrap">
               {user?.role !== "admin" && (
@@ -215,6 +183,7 @@ export default function ClassDetails() {
               formattedEndTime={formattedEndTime}
               formattedStartDate={formattedStartDate}
               handleBooking={handleBooking}
+              duration={duration}
             />
             <TrialSessionModal />
           </aside>

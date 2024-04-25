@@ -16,6 +16,7 @@ import ClassDetails from "./pages/activities/ClassDetails";
 
 //Importing loader function
 import { getActivities, getActivity } from "./api/activities";
+import Bookingconfirmation from "./pages/activities/Bookingconfirmation";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,11 @@ const router = createBrowserRouter([
           {
             path: "details/:id",
             element: <ClassDetails />,
+            loader: getActivity,
+          },
+          {
+            path: "details/:id/confirmation",
+            element: <Bookingconfirmation />,
             loader: getActivity,
           },
           {
