@@ -20,6 +20,7 @@ import {
   UsersIcon,
 } from "../../assets/icons/Icons";
 import TrialSessionModal from "../../components/messages/TrialSessionModal";
+import ActivityDetails from "../../components/activities/ActivityDetails";
 
 export default function ClassDetails() {
   //in the url parameters the id of the activity is passed - this is used to get the activity details
@@ -60,20 +61,20 @@ export default function ClassDetails() {
       .put(`/activities/${id}`, {})
       .then((response) => {
         console.log("after successfull booking: ", response.data);
-        // setOpenSlots(
-        //   response.data.activity.capacity -
-        //     response.data.activity.registeredUsers.length
-        // );
-        // setUser(response.data.user);
+        setOpenSlots(
+          response.data.activity.capacity -
+            response.data.activity.registeredUsers.length
+        );
+        setUser(response.data.user);
       })
       .then(() => {
         navigate(`confirmation`);
       })
       .catch((err) => {
-        // console.log(err.response.status);
-        // if (err.response.status.toString() === "403") {
-        //   navigate("/login");
-        // }
+        console.log(err.response.status);
+        if (err.response.status.toString() === "403") {
+          navigate("/login");
+        }
         console.log(err);
       });
   };
@@ -85,23 +86,23 @@ export default function ClassDetails() {
       <h1 className="text-4xl flex justify-center mb-6 font-titleFont font-bold">
         {activity.title}
       </h1>
-      <div className="flex md:flex-row flex-col-reverse justify-center items-start">
+      <div className="flex md:flex-row flex-col justify-center items-start">
         {" "}
         <button
-          className="btn btn-circle btn-neutral mr-3 mt-2 self-start"
+          className="btn btn-circle btn-neutral mx-3 mt-2 self-start mb-2"
           onClick={() => navigate(-1)}
         >
           <Arrowleft />{" "}
         </button>
         <div
-          className={`grid grid-cols-${
+          className={`grid grid-cols-1 sm:grid-cols-${
             user && user.role === "admin" ? 3 : 2
           } grid-rows-${
             user && user.role === "admin" ? 3 : 2
           } gap-2 self-start min-h-0 `}
         >
           <div
-            className={`Kurs-Informationen card bg-white shadow-xl flex flex-col p-4 min-w-72 row-span-${
+            className={`Kurs-Informationen card bg-white shadow-xl flex flex-col p-4 min-w-72 sm:row-span-${
               user && user.role === "admin" ? 3 : 2
             }`}
           >
@@ -122,50 +123,17 @@ export default function ClassDetails() {
             <p className="mt-4 max-w-md">{activity.description}</p>
           </div>
           <aside
-            className={`card bg-white shadow-xl flex flex-col p-4  min-w-96  row-span-1 `}
+            className={`card bg-white shadow-xl flex flex-col p-4  min-w-96  sm:row-span-1 row-start-1 `}
           >
-            <div className="flex flex-col lg:flex-row lg:items-center">
-              <div className="lg:w-2/3 lg:pr-8">
-                <div className="flex gap-2 m-2">
-                  <CalendarIcon className="w-7" />
-                  <p className="font-titleH3 font-semibold text-xl">Datum</p>
-                </div>
-                <p>{formattedStartDate}</p>
-
-                <div className="flex gap-2 m-2">
-                  <ClockIcon className="w-7" />
-                  <p className="font-titleH3 font-semibold text-xl">Uhrzeit</p>
-                </div>
-                <p>
-                  {formattedStartTime} - {formattedEndTime} ({duration} Min.)
-                </p>
-
-                <div className="flex gap-2 m-2">
-                  <UsersIcon className="w-7" />
-                  <p className="font-titleH3 font-semibold text-xl">
-                    Verfügbarkeit
-                  </p>
-                </div>
-                <CapacityBadge openSlots={openSlots} />
-              </div>
-
-              <div className="lg:w-1/3">
-                {/* <div className="avatar self-center mt-3 sm:flex gap-2">
-                  <div className="w-24 mask mask-hexagon">
-                    <img
-                      src={activity.instructor.image.url}
-                      alt={activity.instructor.firstName}
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-rows-2 mt-5 mr-4">
-                  <p className="font-titleH3 font-semibold text-xl">
-                    Instructor:
-                  </p>
-                  <p>{activity.instructor.firstName}</p>
-                </div> */}
-              </div>
-            </div>
+            <ActivityDetails
+              activity={activity}
+              id={id}
+              formattedStartTime={formattedStartTime}
+              formattedEndTime={formattedEndTime}
+              formattedStartDate={formattedStartDate}
+              duration={duration}
+              openSlots={openSlots}
+            />
 
             <div className="flex justify-center flex-wrap">
               {user?.role !== "admin" && (
@@ -215,11 +183,12 @@ export default function ClassDetails() {
               formattedEndTime={formattedEndTime}
               formattedStartDate={formattedStartDate}
               handleBooking={handleBooking}
+              duration={duration}
             />
             <TrialSessionModal />
           </aside>
           {user && user.role === "admin" ? (
-            <div className="Angemeldete-Nutzer card bg-white shadow-xl flex flex-col p-4 min-w-96 col-start-2 row-start-2 row-span-2  max-h-[550px] overflow-x-auto overflow-y-auto">
+            <div className="Angemeldete-Nutzer card bg-white shadow-xl flex flex-col p-4 min-w-96 sm:col-start-2 sm:row-start-2 sm:row-span-2  max-h-[550px] overflow-x-auto overflow-y-auto">
               <div>
                 <h3 className="flex justify-center text-2xl leading-6 font-medium text-gray-900 font-titleH3 mb-1">
                   Angemeldete Nutzer:innen
@@ -265,7 +234,7 @@ export default function ClassDetails() {
               </div>
             </div>
           ) : (
-            <div className="Kursort card bg-white shadow-xl flex flex-col p-4 min-w-96 col-start-2">
+            <div className="Kursort card bg-white shadow-xl flex flex-col p-4 min-w-96 sm:col-start-2 col-start-1 min-h-60">
               <div className="flex gap-2 m-2">
                 <MapPinIcon className="w-7" />
                 <p className="font-bold">Ort</p>
