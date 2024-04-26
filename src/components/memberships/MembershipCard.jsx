@@ -12,28 +12,18 @@ export default function MembershipCard({ plan }) {
   //getting the user from Authcontext
   const { user, setUser } = useContext(AuthContext);
   console.log(user);
+  let activeMembershipFound = false;
 
-  const [isMembershipActive, setIsMembershipActive] = useState(false);
+  const membershipsArray = user?.activeMemberships;
 
-  useEffect(() => {
-    // Check if the user has an active membership matching the plan
-    if (user && user.activeMemberships) {
-      const matchingMembership = user.activeMemberships.find(
-        (membership) =>
-          membership.membershipPlan._id === plan._id &&
-          membership.membershipStatus === "active"
-      );
-      setIsMembershipActive(!!matchingMembership);
-    }
-  }, [user, plan]);
+  membershipsArray?.forEach((membership) => {
+    membership.membershipPlan._id === plan._id &&
+    membership.membershipStatus === "active"
+      ? (activeMembershipFound = true)
+      : null;
+  });
 
   const handleMembershipReservation = async () => {
-    console.log(
-      "membership reservation",
-      plan._id,
-      formattedExpiryDate,
-      user?._id
-    );
     axiosClient
       .post("/usermemberships", {
         membershipPlan: plan._id,
@@ -63,6 +53,7 @@ export default function MembershipCard({ plan }) {
           <button
             className="btn btn-primary"
             onClick={handleMembershipReservation}
+            disabled={activeMembershipFound}
           >
             Jetzt vorbuchen
           </button>
