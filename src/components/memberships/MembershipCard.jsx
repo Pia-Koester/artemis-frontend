@@ -2,6 +2,7 @@ import { addMonths, format } from "date-fns";
 import axiosClient from "../../api/axiosClient";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
+import { Link } from "react-router-dom";
 
 export default function MembershipCard({ plan }) {
   //calculate the expiry date based on current date and membership duration
@@ -57,6 +58,14 @@ export default function MembershipCard({ plan }) {
           >
             Jetzt vorbuchen
           </button>
+          {activeMembershipFound && (
+            <p className="text-center text-secondary">
+              Es sieht so aus als hättest du schon eine gültige Karte. Überprüfe
+              wie viele{" "}
+              <Link className="link">Teilnahmen noch offen sind. </Link>
+              {/* To Do: link zu übersicht hinzufügen */}
+            </p>
+          )}
         </div>
       </div>
     </div>
