@@ -123,7 +123,7 @@ export default function ClassSchedule() {
           </button>
         </div>
         <select
-          className="select select-secondary self-start"
+          className="select select-secondary sm:self-start"
           onChange={handleTrainer}
           value={trainer}
         >
@@ -138,7 +138,7 @@ export default function ClassSchedule() {
           })}
         </select>
         <select
-          className="select select-secondary self-start"
+          className="select select-secondary sm:self-start"
           onChange={handleType}
           value={worktouttype}
         >
