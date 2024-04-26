@@ -27,7 +27,7 @@ export default function Navbar() {
           {user?.role === "student" && (
             <button
               className=" btn-primary btn btn-outline ml-auto mr-10"
-              onClick={() => navigate("/membershipPlans")}
+              onClick={() => navigate("/angebote")}
             >
               {window.innerWidth < 640
                 ? "10er Karte"
