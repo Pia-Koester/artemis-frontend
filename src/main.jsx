@@ -13,10 +13,12 @@ import Login from "./pages/user/Login";
 import Loadlayout from "./layout/Loadlayout";
 import ClassSchedule from "./pages/activities/ClassSchedule";
 import ClassDetails from "./pages/activities/ClassDetails";
+import Bookingconfirmation from "./pages/activities/Bookingconfirmation";
+import { MembershipOverview } from "./pages/memberships/MembershipOverview";
 
 //Importing loader function
 import { getActivities, getActivity } from "./api/activities";
-import Bookingconfirmation from "./pages/activities/Bookingconfirmation";
+import { getMembershipPlans } from "./api/memberships";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +53,11 @@ const router = createBrowserRouter([
           {
             path: "login",
             element: <Login />,
+          },
+          {
+            path: "angebote",
+            element: <MembershipOverview />,
+            loader: getMembershipPlans,
           },
         ],
       },
