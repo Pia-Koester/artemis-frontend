@@ -14,6 +14,12 @@ export default function MembershipCard({ plan }) {
   console.log(user);
 
   const handleMembershipReservation = async () => {
+    console.log(
+      "membership reservation",
+      plan._id,
+      formattedExpiryDate,
+      user?._id
+    );
     axiosClient
       .post("/usermemberships", {
         membershipPlan: plan.id,
