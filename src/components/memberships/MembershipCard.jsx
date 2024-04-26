@@ -22,7 +22,7 @@ export default function MembershipCard({ plan }) {
     );
     axiosClient
       .post("/usermemberships", {
-        membershipPlan: plan.id,
+        membershipPlan: plan._id,
         expiryDate: formattedExpiryDate,
         user: user?._id,
       })
