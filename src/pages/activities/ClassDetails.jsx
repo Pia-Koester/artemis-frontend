@@ -30,6 +30,7 @@ export default function ClassDetails() {
 
   //getting the activity details
   const activity = useLoaderData();
+  console.log("activity", activity);
 
   //this is the same calculation as in the activity card
   const [openSlots, setOpenSlots] = useState(
@@ -79,11 +80,18 @@ export default function ClassDetails() {
       });
   };
 
+  //logic for probetraining button to avoid more then allowed users
+  const [trialFull, setFull] = useState(
+    activity.trialMembership.limitTrialSessions ===
+      activity.trialMembership.trialSessionsUsed
+  );
+
+  //navigate back to the previous page - this is used in the back button
   const navigate = useNavigate();
   return (
     <div className="mb-4">
       {" "}
-      <h1 className="text-4xl flex justify-center mb-6 font-titleFont font-bold">
+      <h1 className="text-4xl flex justify-center mb-6 font-titleFont font-bold text-center">
         {activity.title}
       </h1>
       <div className="flex md:flex-row flex-col justify-center items-start">
@@ -138,7 +146,14 @@ export default function ClassDetails() {
             <div className="flex justify-center flex-wrap">
               {user?.role !== "admin" && (
                 <>
-                  {!user ? (
+                  {!user && trialFull ? (
+                    <button
+                      className="btn btn-disabled mr-3 self-center mt-2"
+                      disabled
+                    >
+                      Kein Probetraining möglich
+                    </button>
+                  ) : !user ? (
                     <button
                       className="btn btn-primary mr-3 self-center mt-2"
                       onClick={() =>
@@ -148,9 +163,9 @@ export default function ClassDetails() {
                     >
                       Probetraining buchen
                     </button>
-                  ) : !user.registeredActivities.find((activity) => {
-                      return activity._id === id;
-                    }) ? (
+                  ) : !user.registeredActivities.find(
+                      (activity) => activity._id === id
+                    ) ? (
                     <button
                       className="btn btn-primary mr-3 self-center mt-2"
                       onClick={() =>
@@ -174,8 +189,9 @@ export default function ClassDetails() {
                     </>
                   )}
                 </>
-              )}{" "}
+              )}
             </div>
+
             <Modal
               activity={activity}
               id={id}

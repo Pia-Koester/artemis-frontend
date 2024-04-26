@@ -14,6 +14,7 @@ const getActivities = async ({ request }) => {
     const queryString = new URLSearchParams(queryParams);
 
     const response = await axiosClient.get(`activities?${queryString}`);
+    console.log("api response", response.data);
 
     const activitiesByWeekday = response.data.reduce(
       (accumulator, activity) => {
