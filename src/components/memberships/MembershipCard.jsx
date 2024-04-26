@@ -3,6 +3,7 @@ import axiosClient from "../../api/axiosClient";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { Link } from "react-router-dom";
+import UserMembershipModal from "../messages/UserMembershipModal";
 
 export default function MembershipCard({ plan }) {
   //calculate the expiry date based on current date and membership duration
@@ -53,10 +54,12 @@ export default function MembershipCard({ plan }) {
         <div className="card-actions justify-end">
           <button
             className="btn btn-primary"
-            onClick={handleMembershipReservation}
+            onClick={() =>
+              document.getElementById("membershipBooking").showModal()
+            }
             disabled={activeMembershipFound}
           >
-            Jetzt vorbuchen
+            Jetzt vormerken
           </button>
           {activeMembershipFound && (
             <p className="text-center text-secondary">
@@ -68,6 +71,11 @@ export default function MembershipCard({ plan }) {
           )}
         </div>
       </div>
+      <UserMembershipModal
+        handleMembershipReservation={handleMembershipReservation}
+        plan={plan}
+        formattedExpiryDate={formattedExpiryDate}
+      />
     </div>
   );
 }
