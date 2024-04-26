@@ -30,7 +30,7 @@ export default function ClassSchedule() {
       });
 
     axiosClient
-      .get("/activityTypes")
+      .get("/types")
       .then((response) => {
         setActivitytypes(response.data);
       })
@@ -110,16 +110,47 @@ export default function ClassSchedule() {
       <h1 className="text-4xl mb-6 font-titleFont font-bold text-center">
         Buche deinen nächsten Kurs
       </h1>{" "}
-      <div className="join">
-        <button className="join-item btn" onClick={handlePrev}>
-          «
-        </button>
-        <button className="join-item btn">
-          {response.weekstart} - {response.weekend}
-        </button>
-        <button className="join-item btn" onClick={handleNext}>
-          »
-        </button>
+      <div className="flex flex-col md:flex-row w-full gap-2 md:justify-center items-center">
+        <div className="join">
+          <button className="join-item btn" onClick={handlePrev}>
+            «
+          </button>
+          <button className="join-item btn">
+            {response.weekstart} - {response.weekend}
+          </button>
+          <button className="join-item btn" onClick={handleNext}>
+            »
+          </button>
+        </div>
+        <select
+          className="select select-secondary self-start"
+          onChange={handleTrainer}
+          value={trainer}
+        >
+          <option value="All">Trainer:in</option>
+
+          {instructors.map((instructor) => {
+            return (
+              <option key={instructor.firstName} value={instructor._id}>
+                {instructor.firstName}
+              </option>
+            );
+          })}
+        </select>
+        <select
+          className="select select-secondary self-start"
+          onChange={handleType}
+          value={worktouttype}
+        >
+          <option value="All"> Kursart</option>
+          {activitytypes.map((type) => {
+            return (
+              <option key={type._id} value={type._id}>
+                {type.type.charAt(0).toUpperCase() + type.type.slice(1)}
+              </option>
+            );
+          })}
+        </select>
       </div>
       {Object.keys(activities).length === 0 ? (
         <div className="flex justify-center items-center w-full h-96 flex-col">
