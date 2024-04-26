@@ -1,6 +1,6 @@
 import { addMonths, format } from "date-fns";
 import axiosClient from "../../api/axiosClient";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 
 export default function MembershipCard({ plan }) {
@@ -12,6 +12,20 @@ export default function MembershipCard({ plan }) {
   //getting the user from Authcontext
   const { user, setUser } = useContext(AuthContext);
   console.log(user);
+
+  const [isMembershipActive, setIsMembershipActive] = useState(false);
+
+  useEffect(() => {
+    // Check if the user has an active membership matching the plan
+    if (user && user.activeMemberships) {
+      const matchingMembership = user.activeMemberships.find(
+        (membership) =>
+          membership.membershipPlan._id === plan._id &&
+          membership.membershipStatus === "active"
+      );
+      setIsMembershipActive(!!matchingMembership);
+    }
+  }, [user, plan]);
 
   const handleMembershipReservation = async () => {
     console.log(
