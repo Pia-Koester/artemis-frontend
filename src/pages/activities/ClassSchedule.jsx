@@ -17,6 +17,28 @@ export default function ClassSchedule() {
   const navigate = useNavigate();
   const [instructors, setInstructors] = useState([]);
 
+  //Instructor getting for filter
+  useEffect(() => {
+    axiosClient
+      .get("/instructors")
+      .then((response) => {
+        setInstructors(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        setUser(null);
+      });
+
+    axiosClient
+      .get("/activityTypes")
+      .then((response) => {
+        setActivitytypes(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   //array of weekdays for the grid columns
   const weekdays = [
     "Montag",
@@ -34,17 +56,70 @@ export default function ClassSchedule() {
   const [skip, setSkip] = useState(0);
   const [worktouttype, setWorkouttype] = useState("");
 
+  //function to take care of trainer filter
+  const handleTrainer = (e) => {
+    setWorkouttype("All");
+    setTrainer(e.target.value);
+    if (skip !== 0) {
+      setSearchParams(`skip=${skip}&instructor=${e.target.value}`);
+    } else {
+      setSearchParams(`instructor=${e.target.value}`);
+    }
+  };
+
+  //function to take care of activitytyp /workouttype filter
+  const [activitytypes, setActivitytypes] = useState([]);
+  const handleType = (e) => {
+    setTrainer("All");
+    setWorkouttype(e.target.value);
+    if (skip !== 0) {
+      setSearchParams(`skip=${skip}&type=${e.target.value}`);
+    } else {
+      setSearchParams(`type=${e.target.value}`);
+    }
+  };
+
+  //pagination based on week logic
+  const handleNext = () => {
+    setSkip((prev) => {
+      const newSkip = prev + 1;
+      if (trainer) {
+        setSearchParams(`skip=${prev + 1}&instructor=${trainer}`);
+      } else {
+        setSearchParams(`skip=${prev + 1}`);
+      }
+      return newSkip;
+    });
+  };
+  const handlePrev = () => {
+    setSkip((prev) => {
+      const newSkip = prev - 1;
+      if (trainer) {
+        setSearchParams(`skip=${prev - 7}&instructor=${trainer}`);
+      } else if (worktouttype) {
+        `skip=${prev - 1}&type=${worktouttype}`;
+      } else {
+        setSearchParams(`skip=${prev - 1}`);
+      }
+      return newSkip;
+    });
+  };
+
   return (
     <div className="flex gap-3 flex-col items-center p-5">
       <h1 className="text-4xl mb-6 font-titleFont font-bold text-center">
         Buche deinen nächsten Kurs
       </h1>{" "}
       <div className="join">
-        <button className="join-item btn">«</button>
+        <button className="join-item btn" onClick={handlePrev}>
+          «
+        </button>
         <button className="join-item btn">
           {response.weekstart} - {response.weekend}
         </button>
-        <button className="join-item btn">»</button>
+        <button className="join-item btn" onClick={handleNext}>
+          »
+        </button>
       </div>
       {Object.keys(activities).length === 0 ? (
         <div className="flex justify-center items-center w-full h-96 flex-col">
