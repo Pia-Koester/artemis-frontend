@@ -1,5 +1,6 @@
 import { defineWeek } from "../utils/defineWeek";
 import axiosClient from "./axiosClient";
+import Toast from "../components/messages/Toast";
 
 const getActivities = async ({ request }) => {
   try {
@@ -79,4 +80,27 @@ const getActivity = async ({ params }) => {
   }
 };
 
-export { getActivities, getActivity };
+const handleCancelation = (id, setUser, setOpenSlots) => {
+  axiosClient
+    .put(`/activities/${id}/cancel`, {}, { withCredentials: true })
+    .then((response) => {
+      console.log("Data from api", response.data);
+      setUser((prev) => {
+        return {
+          ...prev,
+          registeredActivities: response.data.user.registeredActivities,
+          activeMemberships: response.data.user.activeMemberships,
+        };
+      });
+
+      setOpenSlots(
+        response.data.activity.capacity -
+          response.data.activity.registeredUsers.length
+      );
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export { getActivities, getActivity, handleCancelation };

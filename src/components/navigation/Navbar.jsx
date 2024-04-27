@@ -82,9 +82,7 @@ export default function Navbar() {
                   </>
                   {user.role === "student" && (
                     <li>
-                      <Link to={"/userProfile/activities"}>
-                        My Booked Classes
-                      </Link>
+                      <Link to={"user/gebucht"}>Gebuchte Kurse</Link>
                     </li>
                   )}{" "}
                   {user.role === "admin" && (
