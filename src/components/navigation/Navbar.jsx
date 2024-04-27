@@ -13,7 +13,7 @@ export default function Navbar() {
   return (
     <>
       {!isLoading && (
-        <div className="navbar bg-base-100 px-4 sm:px-10 py-3">
+        <div className="navbar bg-base-100 px-2 sm:px-10 py-3">
           <div className="flex-1">
             <NavLink to={"/"}>
               <img
@@ -94,9 +94,7 @@ export default function Navbar() {
                   )}
                   {user.role === "student" && (
                     <li>
-                      <Link to={"/userProfile/memberships"}>
-                        My Memberships
-                      </Link>
+                      <Link to={"user/memberships"}>Meine 10er Karten</Link>
                     </li>
                   )}
                   <li>

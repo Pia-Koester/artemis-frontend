@@ -15,10 +15,12 @@ import ClassSchedule from "./pages/activities/ClassSchedule";
 import ClassDetails from "./pages/activities/ClassDetails";
 import Bookingconfirmation from "./pages/activities/Bookingconfirmation";
 import { MembershipOverview } from "./pages/memberships/MembershipOverview";
+import Protected from "./layout/Protected";
 
 //Importing loader function
 import { getActivities, getActivity } from "./api/activities";
 import { getMembershipPlans } from "./api/memberships";
+import UserMemebershipOverview from "./pages/memberships/UserMembershipOverview";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +60,13 @@ const router = createBrowserRouter([
             path: "angebote",
             element: <MembershipOverview />,
             loader: getMembershipPlans,
+          },
+          {
+            path: "/user",
+            element: <Protected />,
+            children: [
+              { path: "memberships", element: <UserMemebershipOverview /> },
+            ],
           },
         ],
       },
