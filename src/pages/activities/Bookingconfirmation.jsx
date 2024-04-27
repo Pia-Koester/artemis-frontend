@@ -69,8 +69,18 @@ export default function Bookingconfirmation() {
               confirmation={true}
             />
             <div className="flex gap-2 m-4 sm:justify-center items-center flex-col sm:flex-row">
-              <button className="btn btn-primary">alle meine Buchungen</button>
-              <button className="btn btn-primary">Meine 10er Karte</button>
+              <button
+                className="btn btn-primary"
+                onClick={() => navigate("/user/gebucht")}
+              >
+                Meine gebuchten Kurse
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={() => navigate("/user/memberships")}
+              >
+                Meine 10er Karte
+              </button>
               <button className="btn btn-secondary">Buchung entfernen</button>
             </div>
           </div>
