@@ -4,12 +4,13 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { Link } from "react-router-dom";
 import UserMembershipModal from "../messages/UserMembershipModal";
+import Stamp from "./Stamp";
 
-export default function MembershipCard({ plan }) {
+export default function MembershipCard({ plan, activeplan }) {
   //calculate the expiry date based on current date and membership duration
   const currentDate = new Date();
   const expiryDate = addMonths(currentDate, plan.membershipDuration);
-  const formattedExpiryDate = format(expiryDate, "yyyy-MM-dd");
+  const formattedExpiryDate = format(expiryDate, "dd.MM.yyyy");
 
   //getting the user from Authcontext
   const { user, setUser } = useContext(AuthContext);
@@ -47,29 +48,46 @@ export default function MembershipCard({ plan }) {
       </figure>
       <div className="card-body">
         <h2 className="card-title">{plan.title}</h2>
-        <p>{plan.description}</p>
-        <p>Kosten: {plan.price}</p>
-        <p>Anzahl Teilnahmen: {plan.availableCredits}</p>
-        <p>Gültig für {plan.membershipDuration} Monate</p>
-        <div className="card-actions justify-end">
-          <button
-            className="btn btn-primary"
-            onClick={() =>
-              document.getElementById("membershipBooking").showModal()
-            }
-            disabled={activeMembershipFound}
-          >
-            Jetzt vormerken
-          </button>
-          {activeMembershipFound && (
-            <p className="text-center text-secondary">
-              Es sieht so aus als hättest du schon eine gültige Karte. Überprüfe
-              wie viele{" "}
-              <Link className="link">Teilnahmen noch offen sind. </Link>
-              {/* To Do: link zu übersicht hinzufügen */}
-            </p>
-          )}
-        </div>
+        {!activeplan && (
+          <div>
+            <p>{plan.description}</p>
+            <p>Kosten: {plan.price}</p>
+            <p>Anzahl Teilnahmen: {plan.availableCredits}</p>
+            <p>Gültig für {plan.membershipDuration} Monate</p>
+            <div className="card-actions justify-end">
+              <button
+                className="btn btn-primary"
+                onClick={() =>
+                  document.getElementById("membershipBooking").showModal()
+                }
+                disabled={activeMembershipFound}
+              >
+                Jetzt vormerken
+              </button>
+              {activeMembershipFound && (
+                <p className="text-center text-secondary">
+                  Es sieht so aus als hättest du schon eine gültige Karte.
+                  Überprüfe wie viele{" "}
+                  <Link className="link">Teilnahmen noch offen sind. </Link>
+                  {/* To Do: link zu übersicht hinzufügen */}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+        {activeplan && (
+          <>
+            <div className="flex gap-2 flex-wrap">
+              {Array.from(
+                { length: activeplan.consumedCredits },
+                (_, index) => (
+                  <Stamp key={index} />
+                )
+              )}
+            </div>
+            <p>Gültig bis: {formattedExpiryDate}</p>
+          </>
+        )}
       </div>
       <UserMembershipModal
         handleMembershipReservation={handleMembershipReservation}

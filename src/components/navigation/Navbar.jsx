@@ -94,9 +94,7 @@ export default function Navbar() {
                   )}
                   {user.role === "student" && (
                     <li>
-                      <Link to={"/userProfile/memberships"}>
-                        My Memberships
-                      </Link>
+                      <Link to={"user/memberships"}>Meine 10er Karten</Link>
                     </li>
                   )}
                   <li>

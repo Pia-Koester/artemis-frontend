@@ -6,6 +6,7 @@ import { AuthContext } from "../../Context/AuthProvider";
 //importing icons
 import { Arrowleft } from "../../assets/icons/Icons";
 import MembershipCard from "../../components/memberships/MembershipCard";
+import Stamp from "../../components/memberships/Stamp";
 
 export function MembershipOverview() {
   const plans = useLoaderData();
@@ -34,12 +35,6 @@ export function MembershipOverview() {
       )}
       <div className="flex md:flex-row flex-col justify-center items-start">
         {" "}
-        <button
-          className="btn btn-circle btn-neutral mx-3 mt-2 self-start mb-2"
-          onClick={() => navigate(-1)}
-        >
-          <Arrowleft />{" "}
-        </button>
         <div className="flex flex-col md:flex-row gap-8">
           {plans.map((plan) => {
             return <MembershipCard key={plan._id} plan={plan} />;
