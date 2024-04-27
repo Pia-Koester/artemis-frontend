@@ -52,6 +52,19 @@ export default function UserMemebershipOverview() {
           </div>
           <div className="flex flex-col md:flex-row gap-8">
             <div className="flex flex-col md:flex-row gap-8">
+              {activePlans.length === 0 && (
+                <div>
+                  <p>Noch hast du keine 10er Karten gekauft. </p>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      navigate("/angebote");
+                    }}
+                  >
+                    Angebote
+                  </button>
+                </div>
+              )}
               {activeTab === "active"
                 ? activePlans
                     .filter(
