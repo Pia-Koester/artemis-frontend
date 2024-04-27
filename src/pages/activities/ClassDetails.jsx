@@ -5,6 +5,7 @@ import axiosClient from "../../api/axiosClient";
 import { AuthContext } from "../../Context/AuthProvider";
 import { format, differenceInMinutes } from "date-fns";
 import { de as deLocale } from "date-fns/locale";
+import { toast } from "react-toastify";
 
 //importing components
 import CapacityBadge from "../../components/activities/CapacityBadge";
@@ -73,10 +74,16 @@ export default function ClassDetails() {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status.toString() === "403") {
-          navigate("/login");
-        }
-        console.log(err);
+        toast.error("Anmeldung fehlgeschlagen", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       });
   };
 
