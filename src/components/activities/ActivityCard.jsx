@@ -34,7 +34,7 @@ export default function ActivityCard({ activity, role = "student" }) {
 
   //check if user is already booked for the class
   const [isBooked, setIsBooked] = useState(
-    activity.registeredUsers[0]?.user === user._id
+    user && activity.registeredUsers[0]?.user === user?._id
   );
 
   return (
