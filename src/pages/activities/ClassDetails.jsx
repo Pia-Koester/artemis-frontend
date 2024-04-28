@@ -19,9 +19,11 @@ import {
   ClockIcon,
   CalendarIcon,
   UsersIcon,
+  UserIcon,
 } from "../../assets/icons/Icons";
 import TrialSessionModal from "../../components/messages/TrialSessionModal";
 import ActivityDetails from "../../components/activities/ActivityDetails";
+import UserTableRow from "../../components/admin/UserTableRow";
 
 export default function ClassDetails() {
   //in the url parameters the id of the activity is passed - this is used to get the activity details
@@ -92,6 +94,8 @@ export default function ClassDetails() {
     activity.trialMembership.limitTrialSessions ===
       activity.trialMembership.trialSessionsUsed
   );
+
+  console.log(user.role);
 
   //navigate back to the previous page - this is used in the back button
   const navigate = useNavigate();
@@ -224,31 +228,9 @@ export default function ClassDetails() {
                   <table className="table p-2 m-2  max-h-[300px] overflow-x-auto overflow-y-auto">
                     <tbody>
                       {registeredUsers.map((student) => {
+                        console.log(student);
                         return (
-                          <tr key={student._id}>
-                            {/* <th>
-                              <div className="avatar">
-                                <div className="w-16 rounded-full">
-                                  {student.image?.url ? (
-                                    <img
-                                      alt="User Icon - click to see menu options"
-                                      src={student.image?.url}
-                                      className="w-full h-full object-cover rounded-full"
-                                    />
-                                  ) : (
-                                    <img
-                                      alt="User Icon - click to see menu options"
-                                      src={UserIcon}
-                                    />
-                                  )}
-                                </div>
-                              </div>
-                            </th> */}
-                            <td>
-                              <div>{student.lastName}</div>
-                            </td>
-                            <td>{student.firstName}</td>
-                          </tr>
+                          <UserTableRow student={student} key={student._id} />
                         );
                       })}
                     </tbody>
