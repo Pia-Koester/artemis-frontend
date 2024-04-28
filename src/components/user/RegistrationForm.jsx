@@ -46,7 +46,7 @@ export default function RegistrationForm({ trial, activity, id }) {
       .then((response) => {
         console.log("Data from api", response.data);
         Toast("Anmeldung erfolgreich");
-        const redirect = trial ? `/activities/${id}/confirmation` : "/login";
+        const redirect = trial ? `/details/${id}/confirmation` : "/login";
         setTimeout(() => {
           navigate(redirect);
         }, 3000);

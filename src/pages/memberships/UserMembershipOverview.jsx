@@ -24,7 +24,7 @@ export default function UserMemebershipOverview() {
     <div className="mb-4 flex flex-col items-center">
       {" "}
       <h1 className="text-4xl flex justify-center mb-6 font-titleFont font-bold text-center">
-        Deine 10er Karten
+        Meine 10er Karten und Kurse
       </h1>
       <div className="flex md:flex-row flex-col justify-center items-start">
         {" "}

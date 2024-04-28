@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import CapacityBadge from "../../components/activities/CapacityBadge";
 import LocationMap from "../../components/activities/LocationMap";
 import Modal from "../../components/messages/Modal";
+import EditActivity from "../../components/admin/EditActivity";
 
 //importing icons
 import {
@@ -19,9 +20,11 @@ import {
   ClockIcon,
   CalendarIcon,
   UsersIcon,
+  UserIcon,
 } from "../../assets/icons/Icons";
 import TrialSessionModal from "../../components/messages/TrialSessionModal";
 import ActivityDetails from "../../components/activities/ActivityDetails";
+import UserTableRow from "../../components/admin/UserTableRow";
 
 export default function ClassDetails() {
   //in the url parameters the id of the activity is passed - this is used to get the activity details
@@ -67,6 +70,7 @@ export default function ClassDetails() {
           response.data.activity.capacity -
             response.data.activity.registeredUsers.length
         );
+        console.log("this is the user being set", response.data.user);
         setUser(response.data.user);
       })
       .then(() => {
@@ -93,6 +97,27 @@ export default function ClassDetails() {
       activity.trialMembership.trialSessionsUsed
   );
 
+  //logic to handle the grid displayed
+  const isAdmin = user?.role === "admin";
+
+  // Responsive Grid Layout
+  const gridTemplateColumns =
+    window.innerWidth > 768 ? (isAdmin ? "1fr 1fr 1fr" : "1fr 1fr") : "1fr";
+  const gridTemplateRows =
+    window.innerWidth > 768
+      ? isAdmin
+        ? "1fr 1fr 1fr"
+        : "1fr 1fr"
+      : "repeat(3, min-content)";
+  const gridTemplateAreas =
+    window.innerWidth > 768
+      ? isAdmin
+        ? `"kursinfo kurszeiten edit" "kursinfo nutzer edit" "kursinfo nutzer edit"`
+        : `"kursinfo kurszeiten" "kursinfo karte"`
+      : `"kursinfo" "kurszeiten" "karte" "nutzer" "edit"`;
+
+  console.log(user);
+
   //navigate back to the previous page - this is used in the back button
   const navigate = useNavigate();
   return (
@@ -110,16 +135,12 @@ export default function ClassDetails() {
           <Arrowleft />{" "}
         </button>
         <div
-          className={`grid grid-cols-1 sm:grid-cols-${
-            user && user.role === "admin" ? 3 : 2
-          } grid-rows-${
-            user && user.role === "admin" ? 3 : 2
-          } gap-2 self-start min-h-0 `}
+          className={`grid gap-2 self-start min-h-0 `}
+          style={{ gridTemplateColumns, gridTemplateRows, gridTemplateAreas }}
         >
           <div
-            className={`Kurs-Informationen card bg-white shadow-xl flex flex-col p-4 min-w-72 sm:row-span-${
-              user && user.role === "admin" ? 3 : 2
-            }`}
+            className={`Kurs-Informationen card bg-white shadow-xl flex flex-col p-4 min-w-72 `}
+            style={{ gridArea: "kursinfo" }}
           >
             <div className="carousel carousel-center max-w-md p-4 space-x-4 bg-base-100 rounded-box">
               {activity.type?.images.map((image) => {
@@ -138,7 +159,8 @@ export default function ClassDetails() {
             <p className="mt-4 max-w-md">{activity.description}</p>
           </div>
           <aside
-            className={`card bg-white shadow-xl flex flex-col p-4  min-w-96  sm:row-span-1 row-start-1 `}
+            className={`card bg-white shadow-xl flex flex-col p-4  min-w-96 `}
+            style={{ gridArea: "kurszeiten" }}
           >
             <ActivityDetails
               activity={activity}
@@ -211,7 +233,10 @@ export default function ClassDetails() {
             <TrialSessionModal activity={activity} id={id} />
           </aside>
           {user && user.role === "admin" ? (
-            <div className="Angemeldete-Nutzer card bg-white shadow-xl flex flex-col p-4 min-w-96 sm:col-start-2 sm:row-start-2 sm:row-span-2  max-h-[550px] overflow-x-auto overflow-y-auto">
+            <div
+              className="Angemeldete-Nutzer card bg-white shadow-xl flex flex-col p-4 min-w-96 sm:col-start-2  max-h-[550px] overflow-x-auto overflow-y-auto"
+              style={{ gridArea: "nutzer" }}
+            >
               <div>
                 <h3 className="flex justify-center text-2xl leading-6 font-medium text-gray-900 font-titleH3 mb-1">
                   Angemeldete Nutzer:innen
@@ -224,31 +249,13 @@ export default function ClassDetails() {
                   <table className="table p-2 m-2  max-h-[300px] overflow-x-auto overflow-y-auto">
                     <tbody>
                       {registeredUsers.map((student) => {
+                        console.log(student);
                         return (
-                          <tr key={student._id}>
-                            {/* <th>
-                              <div className="avatar">
-                                <div className="w-16 rounded-full">
-                                  {student.image?.url ? (
-                                    <img
-                                      alt="User Icon - click to see menu options"
-                                      src={student.image?.url}
-                                      className="w-full h-full object-cover rounded-full"
-                                    />
-                                  ) : (
-                                    <img
-                                      alt="User Icon - click to see menu options"
-                                      src={UserIcon}
-                                    />
-                                  )}
-                                </div>
-                              </div>
-                            </th> */}
-                            <td>
-                              <div>{student.lastName}</div>
-                            </td>
-                            <td>{student.firstName}</td>
-                          </tr>
+                          <UserTableRow
+                            student={student}
+                            key={student._id}
+                            activity={activity}
+                          />
                         );
                       })}
                     </tbody>
@@ -257,7 +264,10 @@ export default function ClassDetails() {
               </div>
             </div>
           ) : (
-            <div className="Kursort card bg-white shadow-xl flex flex-col p-4 min-w-96 sm:col-start-2 col-start-1 min-h-60">
+            <div
+              className="Kursort card bg-white shadow-xl flex flex-col p-4 min-w-96 min-h-60"
+              style={{ gridArea: "karte" }}
+            >
               <div className="flex gap-2 m-2">
                 <MapPinIcon className="w-7" />
                 <p className="font-bold">Ort</p>
@@ -268,9 +278,13 @@ export default function ClassDetails() {
               />
             </div>
           )}{" "}
-          {/* {user && user.role === "admin" && (
-            <EditActivity activity={activity} hideBackButton />
-          )} */}
+          {user && user.role === "admin" && (
+            <EditActivity
+              activity={activity}
+              hideBackButton
+              style={{ gridArea: "edit" }}
+            />
+          )}
         </div>
       </div>
     </div>

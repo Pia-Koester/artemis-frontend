@@ -50,7 +50,7 @@ export default function Navbar() {
           ) : (
             <div className="flex-none">
               <div className="flex-1"></div>
-              <div className="dropdown dropdown-end">
+              <div className="dropdown dropdown-end z-50">
                 <div
                   tabIndex={0}
                   role="button"
@@ -82,7 +82,7 @@ export default function Navbar() {
                   </>
                   {user.role === "student" && (
                     <li>
-                      <Link to={"user/gebucht"}>Gebuchte Kurse</Link>
+                      <Link to={"user/gebucht"}>Trainingseinheiten</Link>
                     </li>
                   )}{" "}
                   {user.role === "admin" && (
@@ -92,7 +92,7 @@ export default function Navbar() {
                   )}
                   {user.role === "student" && (
                     <li>
-                      <Link to={"user/memberships"}>Meine 10er Karten</Link>
+                      <Link to={"user/memberships"}> Karten & Kurse</Link>
                     </li>
                   )}
                   <li>

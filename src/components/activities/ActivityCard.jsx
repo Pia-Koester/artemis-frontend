@@ -7,13 +7,10 @@ import { AuthContext } from "../../Context/AuthProvider";
 //importing date-fns functions
 import { format, differenceInMinutes, isPast } from "date-fns";
 
-//importing icons from assets folder
-import { Pencil } from "../../assets/icons/Icons";
-
 //importing components
 import CapacityBadge from "./CapacityBadge";
 
-export default function ActivityCard({ activity, role = "student", isBooked }) {
+export default function ActivityCard({ activity, role = "student" }) {
   const navigate = useNavigate();
 
   // Calculating the start time based on the provided date
@@ -34,6 +31,11 @@ export default function ActivityCard({ activity, role = "student", isBooked }) {
 
   //getting user info to check if class is booked or not
   const { user } = useContext(AuthContext);
+
+  //check if user is already booked for the class
+  const [isBooked, setIsBooked] = useState(
+    user && activity.registeredUsers[0]?.user === user?._id
+  );
 
   return (
     <>
