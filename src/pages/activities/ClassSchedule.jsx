@@ -177,7 +177,6 @@ export default function ClassSchedule() {
                       activity={activity}
                       key={activity._id}
                       role={user?.role}
-                      isBooked={activity.registeredUsers.includes(user?._id)}
                     />
                   );
                 })}
