@@ -2,17 +2,20 @@ import { useLoaderData, useSearchParams } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthProvider";
-// import { PlusCircleIcon } from "@heroicons/react/24/outline";
+
 import axiosClient from "../../api/axiosClient";
 import clsx from "clsx";
 
 //importing components
 import ActivityCard from "../../components/activities/ActivityCard";
 
+//importing icons
+import { PlusCircleIcon } from "../../assets/icons/Icons";
+
 export default function ClassSchedule() {
   const response = useLoaderData();
   const activities = response.activities;
-  console.log(activities);
+
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [instructors, setInstructors] = useState([]);
@@ -151,6 +154,14 @@ export default function ClassSchedule() {
             );
           })}
         </select>
+        {user?.role === "admin" && (
+          <button
+            className="text-4xl text-secondary btn btn-circle "
+            onClick={() => navigate("/admin/createactivity")}
+          >
+            <PlusCircleIcon />
+          </button>
+        )}
       </div>
       {Object.keys(activities).length === 0 ? (
         <div className="flex justify-center items-center w-full h-96 flex-col">

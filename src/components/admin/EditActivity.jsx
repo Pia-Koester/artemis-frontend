@@ -245,6 +245,33 @@ export default function EditActivity({ activity, hideBackButton }) {
                 </span>
               )}
             </div>
+            <div className="mb-4">
+              <label
+                htmlFor="trialPossible"
+                className="block text-gray-700 text-sm font-semibold mb-2"
+              >
+                Probetraining erlaubt
+              </label>
+              <input
+                type="checkbox"
+                className="toggle"
+                {...register("trialPossible", {})}
+                defaultValue={activity.trialMembership.trialPossible}
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="limitTrialSessions"
+                className="block text-gray-700 text-sm font-semibold mb-2"
+              >
+                Anzahl Probetrainings
+              </label>
+              <input
+                className="input input-bordered w-full max-w-xs"
+                {...register("limitTrialSessions", {})}
+                defaultValue={activity.trialMembership.limitTrialSessions}
+              />
+            </div>
           </div>
           <button
             type="submit"
