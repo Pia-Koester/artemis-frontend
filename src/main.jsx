@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import axiosClient from "./api/axiosClient";
 
 //IMPORTING THINGS FOR ROUTER
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -18,6 +19,7 @@ import { MembershipOverview } from "./pages/memberships/MembershipOverview";
 import Protected from "./layout/Protected";
 import UserMemebershipOverview from "./pages/memberships/UserMembershipOverview";
 import UserActivityOverview from "./pages/user/UserActivityOverview";
+import CreateActivity from "./components/admin/CreateActivity";
 
 //Importing loader function
 import { getActivities, getActivity } from "./api/activities";
@@ -68,6 +70,19 @@ const router = createBrowserRouter([
             children: [
               { path: "memberships", element: <UserMemebershipOverview /> },
               { path: "gebucht", element: <UserActivityOverview /> },
+            ],
+          },
+          {
+            path: "/admin",
+            element: <Protected />,
+            children: [
+              {
+                path: "createactivity",
+                element: <CreateActivity />,
+                loader: async () => {
+                  return await axiosClient.get(`/types`);
+                },
+              },
             ],
           },
         ],

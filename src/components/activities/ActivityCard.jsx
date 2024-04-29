@@ -10,6 +10,9 @@ import { format, differenceInMinutes, isPast } from "date-fns";
 //importing components
 import CapacityBadge from "./CapacityBadge";
 
+//importing icons
+import { Pencil } from "../../assets/icons/Icons";
+
 export default function ActivityCard({ activity, role = "student" }) {
   const navigate = useNavigate();
 
@@ -79,7 +82,7 @@ export default function ActivityCard({ activity, role = "student" }) {
               </p>
               {role === "admin" && !isPast(startTime) && (
                 <button>
-                  <pencil className="w-4" />
+                  <Pencil className="w-4" />
                 </button>
               )}
             </div>

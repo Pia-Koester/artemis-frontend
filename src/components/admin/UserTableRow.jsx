@@ -44,13 +44,13 @@ export default function UserTableRow({ student, activity }) {
         {student.paymentStatus === "trial" ? (
           <div className="badge badge-success">Probetraining</div>
         ) : (
-          <div className="dropdown">
+          <div className="dropdown z-20">
             <div tabIndex={0} role="button" className="btn m-1">
               Zahlung verwalten
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box "
             >
               <li>
                 {/* this must have the payment status value paid card */}
@@ -59,7 +59,7 @@ export default function UserTableRow({ student, activity }) {
                   role="button"
                   tabIndex={0}
                 >
-                  mit Karte gezahlt
+                  Karte
                 </a>
               </li>
               <li>
@@ -69,7 +69,7 @@ export default function UserTableRow({ student, activity }) {
                   role="button"
                   tabIndex={0}
                 >
-                  Bar gezahlt
+                  Bar
                 </a>
               </li>
               <li>
@@ -81,7 +81,7 @@ export default function UserTableRow({ student, activity }) {
                   role="button"
                   tabIndex={0}
                 >
-                  mit 10er Karte gezahlt
+                  10er Karte
                 </a>
               </li>
             </ul>
