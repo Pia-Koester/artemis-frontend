@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Toast from "../messages/Toast";
+import Toast from "../../components/messages/Toast";
 import axiosClient from "../../api/axiosClient";
 import { eachDayOfInterval, addWeeks } from "date-fns";
 

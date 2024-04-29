@@ -19,12 +19,15 @@ import { MembershipOverview } from "./pages/memberships/MembershipOverview";
 import Protected from "./layout/Protected";
 import UserMemebershipOverview from "./pages/memberships/UserMembershipOverview";
 import UserActivityOverview from "./pages/user/UserActivityOverview";
-import CreateActivity from "./components/admin/CreateActivity";
+import CreateActivity from "./pages/admin/CreateActivity";
 
 //Importing loader function
 import { getActivities, getActivity } from "./api/activities";
 import { getMembershipPlans } from "./api/memberships";
 import Authorize from "./layout/Authorize";
+import Dashboard from "./pages/admin/Dashboard";
+import CreateType from "./pages/admin/CreateType";
+import CreateInstructor from "./pages/admin/CreateInstructor";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +80,7 @@ const router = createBrowserRouter([
             path: "/admin",
             element: <Authorize role={"admin"} />,
             children: [
+              { path: "dashboard", element: <Dashboard /> },
               {
                 path: "createactivity",
                 element: <CreateActivity />,
@@ -84,6 +88,8 @@ const router = createBrowserRouter([
                   return await axiosClient.get(`/types`);
                 },
               },
+              { path: "createtype", element: <CreateType /> },
+              { path: "createinstructor", element: <CreateInstructor /> },
             ],
           },
         ],

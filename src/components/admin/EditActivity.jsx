@@ -147,8 +147,8 @@ export default function EditActivity({ activity, hideBackButton }) {
                   required: "Instructor is required",
                 })}
               >
-                <option disabled selected value={activity.instructor._id}>
-                  {activity.instructor.firstName}
+                <option disabled selected value={activity.instructor?._id}>
+                  {activity.instructor?.firstName}
                 </option>
                 {instructors.map((instructor) => {
                   return (
