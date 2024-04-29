@@ -201,7 +201,7 @@ export default function EditActivity({ activity, hideBackButton }) {
                   <DatePicker
                     placeholderText="Select date"
                     onChange={(date) => field.onChange(date)}
-                    selected={field.value}
+                    selected={new Date(activity.startTime)}
                     showTimeSelect
                     dateFormat="dd.MM.yyyy HH:mm"
                     timeFormat="HH:mm"
@@ -230,7 +230,7 @@ export default function EditActivity({ activity, hideBackButton }) {
                   <DatePicker
                     placeholderText="Select date"
                     onChange={(date) => field.onChange(date)}
-                    selected={field.value}
+                    selected={new Date(activity.endTime)}
                     showTimeSelect
                     dateFormat="dd.MM.yyyy HH:mm"
                     timeFormat="HH:mm"
