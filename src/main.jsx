@@ -24,6 +24,7 @@ import CreateActivity from "./components/admin/CreateActivity";
 //Importing loader function
 import { getActivities, getActivity } from "./api/activities";
 import { getMembershipPlans } from "./api/memberships";
+import Authorize from "./layout/Authorize";
 
 const router = createBrowserRouter([
   {
@@ -74,7 +75,7 @@ const router = createBrowserRouter([
           },
           {
             path: "/admin",
-            element: <Protected />,
+            element: <Authorize role={"admin"} />,
             children: [
               {
                 path: "createactivity",
