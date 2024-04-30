@@ -96,7 +96,7 @@ export default function Navbar() {
                     </li>
                   )}
                   <li>
-                    <Link to={"/userProfile/details"}>Account</Link>
+                    <Link to={"/user/profile"}>Account</Link>
                   </li>
                   <li>
                     <Link onClick={logout}>Logout</Link>
