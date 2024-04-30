@@ -29,6 +29,7 @@ import CreateInstructor from "./pages/admin/CreateInstructor";
 import { getActivities, getActivity } from "./api/activities";
 import { getMembershipPlans } from "./api/memberships";
 import { getUsers } from "./api/users";
+import UserProfile from "./pages/user/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,7 @@ const router = createBrowserRouter([
             children: [
               { path: "memberships", element: <UserMemebershipOverview /> },
               { path: "gebucht", element: <UserActivityOverview /> },
+              { path: "profile", element: <UserProfile /> },
             ],
           },
           {
