@@ -147,8 +147,8 @@ export default function EditActivity({ activity, hideBackButton }) {
                   required: "Instructor is required",
                 })}
               >
-                <option disabled selected value={activity.instructor._id}>
-                  {activity.instructor.firstName}
+                <option disabled selected value={activity.instructor?._id}>
+                  {activity.instructor?.firstName}
                 </option>
                 {instructors.map((instructor) => {
                   return (
@@ -270,6 +270,19 @@ export default function EditActivity({ activity, hideBackButton }) {
                 className="input input-bordered w-full max-w-xs"
                 {...register("limitTrialSessions", {})}
                 defaultValue={activity.trialMembership.limitTrialSessions}
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="singlePayPrice"
+                className="block text-gray-700 text-sm font-semibold mb-2"
+              >
+                Einzelpreis
+              </label>
+              <input
+                className="input input-bordered w-full max-w-xs"
+                {...register("singlePayPrice", {})}
+                defaultValue={activity.singlePayPrice}
               />
             </div>
           </div>

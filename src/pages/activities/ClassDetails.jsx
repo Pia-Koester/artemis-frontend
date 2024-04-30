@@ -252,7 +252,8 @@ export default function ClassDetails() {
                         console.log(student);
                         return (
                           <UserTableRow
-                            student={student}
+                            student={student.user}
+                            paymentStatus={student.paymentStatus}
                             key={student._id}
                             activity={activity}
                           />

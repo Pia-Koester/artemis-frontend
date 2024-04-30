@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Toast from "../messages/Toast";
+import Toast from "../../components/messages/Toast";
 import axiosClient from "../../api/axiosClient";
 import { eachDayOfInterval, addWeeks } from "date-fns";
 
@@ -337,6 +337,18 @@ export default function CreateActivity() {
                 <input
                   className="input input-bordered w-full max-w-xs"
                   {...register("limitTrialSessions", {})}
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="singlePayPrice"
+                  className="block text-gray-700 text-sm font-semibold mb-2"
+                >
+                  Einzelpreis
+                </label>
+                <input
+                  className="input input-bordered w-full max-w-xs"
+                  {...register("singlePayPrice", {})}
                 />
               </div>
             </div>
