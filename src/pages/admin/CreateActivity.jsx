@@ -339,6 +339,18 @@ export default function CreateActivity() {
                   {...register("limitTrialSessions", {})}
                 />
               </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="singlePayPrice"
+                  className="block text-gray-700 text-sm font-semibold mb-2"
+                >
+                  Einzelpreis
+                </label>
+                <input
+                  className="input input-bordered w-full max-w-xs"
+                  {...register("singlePayPrice", {})}
+                />
+              </div>
             </div>
 
             {formloading ? (

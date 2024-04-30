@@ -80,6 +80,33 @@ const getActivity = async ({ params }) => {
   }
 };
 
+const getNumberOfTrialSessions = async (skip) => {
+  try {
+    const week = defineWeek(skip);
+    const queryParams = {
+      start: week.formattedMonday,
+      end: week.formattedSunday,
+    };
+    const queryString = new URLSearchParams(queryParams);
+
+    const response = await axiosClient.get(`activities?${queryString}`);
+    const countTrialSessions = (activitiesData) => {
+      console.log("api response", response.data);
+      let totalTrialSessions = 0;
+      activitiesData.forEach((activity) => {
+        totalTrialSessions += activity.trialMembership.trialSessionsUsed;
+      });
+
+      return totalTrialSessions;
+    };
+    const totalTrialSessions = countTrialSessions(response.data);
+    return totalTrialSessions; // Assuming you want to return the count
+  } catch (error) {
+    console.error("Error fetching or processing data:", error);
+    throw error; // Rethrow the error for handling elsewhere if needed
+  }
+};
+
 const handleCancelation = (id, setUser, setOpenSlots) => {
   axiosClient
     .put(`/activities/${id}/cancel`, {}, { withCredentials: true })
@@ -103,4 +130,9 @@ const handleCancelation = (id, setUser, setOpenSlots) => {
     });
 };
 
-export { getActivities, getActivity, handleCancelation };
+export {
+  getActivities,
+  getActivity,
+  handleCancelation,
+  getNumberOfTrialSessions,
+};

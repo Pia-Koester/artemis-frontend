@@ -4,13 +4,13 @@ import axiosClient from "../../api/axiosClient";
 //importing icons
 import { UserIcon } from "../../assets/icons/Icons";
 
-export default function UserTableRow({ student, activity }) {
+export default function UserTableRow({ student, activity, paymentStatus }) {
   const updateUserPaymentStatus = async (newPaymentStatus) => {
     try {
       const response = await axiosClient.put(
         `activities/admin/${activity._id}/payment`,
         {
-          user_id: student.user._id,
+          user_id: student._id,
           paymentStatus: newPaymentStatus,
         }
       );
@@ -26,22 +26,22 @@ export default function UserTableRow({ student, activity }) {
         <div className="flex items-center gap-3">
           <div className="avatar">
             <div className="mask mask-squircle w-12 h-12">
-              {student.user?.image ? (
-                <img src={student.user.image.url} alt="user" />
+              {student?.image ? (
+                <img src={student.image.url} alt="user" />
               ) : (
                 <UserIcon />
               )}
             </div>
           </div>
           <div>
-            <div className="font-bold">{student.user.firstName}</div>{" "}
-            <div className="text-sm opacity-50">{student.user.lastName}</div>{" "}
+            <div className="font-bold">{student.firstName}</div>{" "}
+            <div className="text-sm opacity-50">{student.lastName}</div>{" "}
           </div>
         </div>
       </td>
-      <td>{student.paymentStatus}</td>
+      <td>{paymentStatus}</td>
       <td>
-        {student.paymentStatus === "trial" ? (
+        {paymentStatus === "trial" ? (
           <div className="badge badge-success">Probetraining</div>
         ) : (
           <div className="dropdown z-20">
