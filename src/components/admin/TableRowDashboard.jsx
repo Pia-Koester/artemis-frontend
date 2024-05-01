@@ -82,7 +82,7 @@ export default function TableRowDahboard({ student, pending }) {
                   </div>
                   <ul
                     tabIndex={0}
-                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box "
+                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box z-50"
                   >
                     <li>
                       {/* this must have the payment status value paid card */}

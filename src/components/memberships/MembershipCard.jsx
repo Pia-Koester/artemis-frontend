@@ -51,7 +51,7 @@ export default function MembershipCard({ plan, activeplan }) {
         {!activeplan && (
           <div>
             <p>{plan.description}</p>
-            <p>Kosten: {plan.price}</p>
+            <p>Kosten: {plan.price}€</p>
             <p>Anzahl Teilnahmen: {plan.availableCredits}</p>
             <p>Gültig für {plan.membershipDuration} Monate</p>
             <div className="card-actions justify-end">
